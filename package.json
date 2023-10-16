@@ -8,15 +8,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vue/compat": "^3.3.4",
+    "@vue/compat": "^3.2.47",
     "axios": "^1.5.1",
     "bootstrap": "^5.3.2",
     "bootstrap-vue": "^2.23.1",
-    "vue": "^3.3.4"
+    "vue": "^3.2.47"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
-    "@vue/compiler-sfc": "^3.3.4",
+    "@vue/compiler-sfc": "^3.2.47",
     "vite": "^4.1.0"
   }
 }

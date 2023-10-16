@@ -32,6 +32,9 @@
         </b-row>
       </b-col>
     </b-row>
+    <b-row align-h="center">
+      <b-col cols="8"></b-col>
+    </b-row>
   </b-container>
 </template>
 
