@@ -1,8 +1,11 @@
 <template>
   <b-container fluid id="mainPageContainer">
     <b-row align-h="center" class="topElement">
-      <b-col cols="8" id="dateScroller">
-        <b-row align-h="between">
+      <b-col cols="auto">
+        <b-button @click="getToday">Go To Today</b-button>
+      </b-col>
+      <b-col cols="8">
+        <b-row align-h="between" id="dateScroller">
           <b-col cols="3" class="dateContainer">
             <h3>{{ prevDate.toLocaleDateString() }}</h3>
           </b-col>
@@ -67,6 +70,9 @@ export default {
     decreaseDate() {
       this.selectedDate = new Date(this.selectedDate);
       this.selectedDate.setDate(this.selectedDate.getDate() - 1);
+    },
+    getToday() {
+      this.selectedDate = new Date();
     },
   },
 };
