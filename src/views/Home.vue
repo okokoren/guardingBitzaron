@@ -1,50 +1,63 @@
 <template>
   <b-container fluid id="mainPageContainer">
-    <b-row align-h="center" class="topElement">
-      <b-col cols="auto">
-        <b-button @click="getToday">Go To Today</b-button>
+    <b-row align-h="center">
+      <b-col cols="auto" class="pageTitle">
+        <h1>שמירות ביצרון</h1>
       </b-col>
-      <b-col cols="8">
-        <b-row align-h="between" id="dateScroller">
-          <b-col cols="3" class="dateContainer">
-            <h3>{{ prevDate.toLocaleDateString() }}</h3>
+    </b-row>
+    <b-row align-h="center" align-v="center">
+      <b-col cols="10">
+        <b-row align-v="center">
+          <b-col cols="auto">
+            <b-button @click="getToday">היום</b-button>
           </b-col>
-          <b-col cols="5" class="dateContainer">
-            <b-row class="selectedDateContainer">
-              <b-col cols="1">
-                <b-button @click="decreaseDate"
-                  ><BIconArrowLeft></BIconArrowLeft
-                ></b-button>
+          <b-col>
+            <b-row align-h="between" id="dateScroller">
+              <b-col cols="3" class="dateContainer">
+                <h3>{{ prevDate.toLocaleDateString() }}</h3>
               </b-col>
-              <b-col cols="10">
-                <h3>{{ selectedDate.toLocaleDateString() }}</h3>
+              <b-col cols="5" class="dateContainer">
+                <b-row class="selectedDateContainer">
+                  <b-col cols="1">
+                    <b-button @click="decreaseDate"
+                      ><BIconArrowLeft></BIconArrowLeft
+                    ></b-button>
+                  </b-col>
+                  <b-col cols="10">
+                    <h3>{{ selectedDate.toLocaleDateString() }}</h3>
+                  </b-col>
+                  <b-col cols="1">
+                    <b-button @click="increaseDate"
+                      ><BIconArrowRight></BIconArrowRight
+                    ></b-button>
+                  </b-col>
+                </b-row>
               </b-col>
-              <b-col cols="1">
-                <b-button @click="increaseDate"
-                  ><BIconArrowRight></BIconArrowRight
-                ></b-button>
+              <b-col cols="3" class="dateContainer">
+                <h3>{{ nextDate.toLocaleDateString() }}</h3>
               </b-col>
             </b-row>
           </b-col>
-          <b-col cols="3" class="dateContainer">
-            <h3>{{ nextDate.toLocaleDateString() }}</h3>
+        </b-row>
+        <b-row align-h="center" class="mt-5">
+          <b-col cols="6">
+            <singleDayGuard></singleDayGuard>
           </b-col>
         </b-row>
       </b-col>
-    </b-row>
-    <b-row align-h="center">
-      <b-col cols="8"></b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
 import { BIconArrowLeft, BIconArrowRight } from 'bootstrap-vue';
+import singleDayGuard from '../components/singleDayGuard.vue';
 
 export default {
   components: {
     BIconArrowLeft,
     BIconArrowRight,
+    singleDayGuard,
   },
   data() {
     return {
@@ -85,9 +98,6 @@ export default {
 #mainPageContainer {
   background-color: #242424;
 }
-.topElement {
-  margin-top: 1.5rem;
-}
 
 #dateScroller {
   background-color: #555252ee;
@@ -103,5 +113,9 @@ export default {
 
 .selectedDateContainer {
   color: white;
+}
+
+.pageTitle {
+  margin-bottom: 1rem;
 }
 </style>
