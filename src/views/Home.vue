@@ -41,7 +41,7 @@
         </b-row>
         <b-row align-h="center" class="mt-5">
           <b-col cols="6">
-            <singleDayGuard></singleDayGuard>
+            <singleDayGuard :selected-date="selectedDate"></singleDayGuard>
           </b-col>
         </b-row>
       </b-col>

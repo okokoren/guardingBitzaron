@@ -7,7 +7,7 @@
       <template #cell()="row">
         <b-button
           size="sm"
-          @click="info(row.item, row.index, $event.target)"
+          @click="showModal(row.index, parseInt(row.field.key), $event.target)"
           class="mr-1"
           v-if="!row.value"
         >
@@ -19,6 +19,8 @@
       </template>
     </b-table>
   </b-card>
+
+  <b-modal :id="modalInfo.id" :title="modalInfo.title" ok-only> </b-modal>
 </template>
 
 <script>
@@ -34,6 +36,7 @@ export default {
       shiftDuration: 2,
       startHour: 2,
       items: [],
+      modalInfo: { id: 'signUpModal', title: '' },
     };
   },
   computed: {
@@ -53,6 +56,14 @@ export default {
       return fields;
     },
   },
+  methods: {
+    showModal(shift, volenteerIndex, button) {
+      this.modalInfo.title = `הרשמה למשמרת ${
+        shift + 1
+      } בתאריך ${this.selectedDate.toLocaleDateString()}`;
+      this.$root.$emit('bv::show::modal', this.modalInfo.id, button);
+    },
+  },
   mounted() {
     let currentHour = this.startHour;
     for (let shiftIndex = 0; shiftIndex < this.shiftNumber; shiftIndex++) {
@@ -69,5 +80,11 @@ export default {
 .card {
   direction: rtl;
   text-align: center;
+}
+</style>
+
+<style>
+.modal-content {
+  direction: rtl;
 }
 </style>
