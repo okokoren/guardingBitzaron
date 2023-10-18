@@ -13,9 +13,23 @@
         >
           הירשם
         </b-button>
-        <p v-else>
-          {{ row.value }}
-        </p>
+        <div v-else>
+          <b-row align-h="center" align-v="center">
+            <b-col cols="9">
+              <span>
+                {{ row.value }}
+              </span>
+            </b-col>
+            <b-col cols="1">
+              <b-button
+                variant="danger"
+                class="removeVolenteerButton"
+                @click="removeVolenteer(row.index, row.field.key)"
+                >X</b-button
+              >
+            </b-col>
+          </b-row>
+        </div>
       </template>
     </b-table>
   </b-card>
@@ -93,6 +107,9 @@ export default {
       this.modalInfo.shiftNumber = null;
       this.modalInfo.volenteerIndex = null;
     },
+    removeVolenteer(shift, volenteerIndex) {
+      this.items[shift][volenteerIndex] = null;
+    },
   },
   mounted() {
     let currentHour = this.startHour;
@@ -110,6 +127,11 @@ export default {
 .card {
   direction: rtl;
   text-align: center;
+}
+.removeVolenteerButton {
+  padding: 0;
+  padding-block: 1px;
+  padding-inline: 6px;
 }
 </style>
 
