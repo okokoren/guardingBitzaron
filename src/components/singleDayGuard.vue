@@ -1,28 +1,66 @@
 <template>
   <b-card bg-variant="secondary" text-variant="white">
-    <b-table :items="items" :fields="fields"> </b-table>
+    <b-table :items="items" :fields="fields" bordered>
+      <template #cell(shift)="row">
+        {{ row.value }}
+      </template>
+      <template #cell()="row">
+        <b-button
+          size="sm"
+          @click="info(row.item, row.index, $event.target)"
+          class="mr-1"
+          v-if="!row.value"
+        >
+          הירשם
+        </b-button>
+        <p v-else>
+          {{ row.value }}
+        </p>
+      </template>
+    </b-table>
   </b-card>
 </template>
 
 <script>
 export default {
   id: 'singleDayTable',
+  props: {
+    selectedDate: Date,
+  },
   data() {
     return {
-      fields: [
-        { key: 'shift', lable: 'משמרת' },
-        { key: 'firstVolenteer', lable: 'מתנדב ראשון' },
-        { key: 'secondVolenteer', lable: 'מתנדב שני' },
-      ],
-      items: [
-        {
-          shift: '2:00 - 4:00',
-        },
-        {
-          shift: '4:00 - 6:00',
-        },
-      ],
+      volenteerNumber: 2,
+      shiftNumber: 2,
+      shiftDuration: 2,
+      startHour: 2,
+      items: [],
     };
+  },
+  computed: {
+    fields() {
+      const fields = [{ key: 'shift', label: 'משמרת' }];
+      for (
+        let volenterrIndex = 0;
+        volenterrIndex < this.volenteerNumber;
+        volenterrIndex++
+      ) {
+        fields.push({
+          key: volenterrIndex.toString(),
+          label: `מתנדב ${volenterrIndex + 1}`,
+        });
+      }
+
+      return fields;
+    },
+  },
+  mounted() {
+    let currentHour = this.startHour;
+    for (let shiftIndex = 0; shiftIndex < this.shiftNumber; shiftIndex++) {
+      this.items.push({
+        shift: `${currentHour}:00 - ${currentHour + this.shiftDuration}:00`,
+      });
+      currentHour += this.shiftDuration;
+    }
   },
 };
 </script>
