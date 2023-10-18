@@ -17,9 +17,9 @@
           <b-row align-h="center" align-v="center">
             <b-col cols="9">
               <span>
-                {{ row.value }}
+                {{ row.value.name }}
                 <font-awesome-icon
-                  v-if="isArmed"
+                  v-if="row.value.isArmed"
                   :icon="['fas', 'gun']"
                   style="color: #000000"
                 />
@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import { baseUrl } from '../api/apiConnection.js';
+
 export default {
   id: 'singleDayTable',
   props: {
@@ -116,8 +118,9 @@ export default {
       this.$bvModal.show(this.modalInfo.id);
     },
     submitVolenteer() {
+      const volenteer = { name: this.nameInput, isArmed: this.isArmed };
       this.items[this.modalInfo.shiftNumber][this.modalInfo.volenteerIndex] =
-        this.nameInput;
+        volenteer;
 
       this.resetSignUpValues();
     },
@@ -132,6 +135,7 @@ export default {
     },
   },
   mounted() {
+    console.log(baseUrl);
     let currentHour = this.startHour;
     for (let shiftIndex = 0; shiftIndex < this.shiftNumber; shiftIndex++) {
       this.items.push({
