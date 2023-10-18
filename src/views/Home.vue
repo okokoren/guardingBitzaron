@@ -14,7 +14,9 @@
           <b-col>
             <b-row align-h="between" id="dateScroller">
               <b-col cols="3" class="dateContainer">
-                <h3>{{ prevDate.toLocaleDateString() }}</h3>
+                <h3>
+                  {{ prevDate.toLocaleDateString('he-IL', dateParseOptions) }}
+                </h3>
               </b-col>
               <b-col cols="5" class="dateContainer">
                 <b-row class="selectedDateContainer">
@@ -24,7 +26,14 @@
                     ></b-button>
                   </b-col>
                   <b-col cols="10">
-                    <h3>{{ selectedDate.toLocaleDateString() }}</h3>
+                    <h3>
+                      {{
+                        selectedDate.toLocaleDateString(
+                          'he-IL',
+                          dateParseOptions
+                        )
+                      }}
+                    </h3>
                   </b-col>
                   <b-col cols="1">
                     <b-button @click="increaseDate"
@@ -34,7 +43,9 @@
                 </b-row>
               </b-col>
               <b-col cols="3" class="dateContainer">
-                <h3>{{ nextDate.toLocaleDateString() }}</h3>
+                <h3>
+                  {{ nextDate.toLocaleDateString('he-IL', dateParseOptions) }}
+                </h3>
               </b-col>
             </b-row>
           </b-col>
@@ -62,6 +73,12 @@ export default {
   data() {
     return {
       selectedDate: new Date(),
+      dateParseOptions: {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      },
     };
   },
   computed: {

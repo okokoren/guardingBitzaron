@@ -7,7 +7,7 @@
       <template #cell()="row">
         <b-button
           size="sm"
-          @click="showModal(row.index, parseInt(row.field.key), $event.target)"
+          @click="showModal(row.index, row.field.key, $event.target)"
           class="mr-1"
           v-if="!row.value"
         >
@@ -20,7 +20,17 @@
     </b-table>
   </b-card>
 
-  <b-modal :id="modalInfo.id" :title="modalInfo.title" ok-only> </b-modal>
+  <b-modal :id="modalInfo.id" :title="modalInfo.title" @ok="submitVolenteer">
+    <form ref="form" @submit.stop.prevent="handleSubmit">
+      <b-form-group label="שם המתנדב" label-for="name-input">
+        <b-form-input
+          id="name-input"
+          v-model="nameInput"
+          required
+        ></b-form-input>
+      </b-form-group>
+    </form>
+  </b-modal>
 </template>
 
 <script>
@@ -36,7 +46,13 @@ export default {
       shiftDuration: 2,
       startHour: 2,
       items: [],
-      modalInfo: { id: 'signUpModal', title: '' },
+      modalInfo: {
+        id: 'signUpModal',
+        title: '',
+        shiftNumber: null,
+        volenteerIndex: null,
+      },
+      nameInput: null,
     };
   },
   computed: {
@@ -60,8 +76,22 @@ export default {
     showModal(shift, volenteerIndex, button) {
       this.modalInfo.title = `הרשמה למשמרת ${
         shift + 1
-      } בתאריך ${this.selectedDate.toLocaleDateString()}`;
-      this.$root.$emit('bv::show::modal', this.modalInfo.id, button);
+      } בתאריך ${this.selectedDate.toLocaleDateString('he-IL')}`;
+      this.modalInfo.shiftNumber = shift;
+      this.modalInfo.volenteerIndex = volenteerIndex;
+
+      this.$bvModal.show(this.modalInfo.id);
+    },
+    submitVolenteer() {
+      this.items[this.modalInfo.shiftNumber][this.modalInfo.volenteerIndex] =
+        this.nameInput;
+
+      this.resetSignUpValues();
+    },
+    resetSignUpValues() {
+      this.nameInput = null;
+      this.modalInfo.shiftNumber = null;
+      this.modalInfo.volenteerIndex = null;
     },
   },
   mounted() {
