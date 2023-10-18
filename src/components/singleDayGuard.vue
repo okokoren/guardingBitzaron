@@ -18,6 +18,11 @@
             <b-col cols="9">
               <span>
                 {{ row.value }}
+                <font-awesome-icon
+                  v-if="isArmed"
+                  :icon="['fas', 'gun']"
+                  style="color: #000000"
+                />
               </span>
             </b-col>
             <b-col cols="1">
@@ -43,6 +48,15 @@
           required
         ></b-form-input>
       </b-form-group>
+      <b-form-group v-slot="{ ariaDescribedby }" class="mt-3">
+        <b-form-radio-group
+          id="armedRadio"
+          v-model="isArmed"
+          :options="armedRadioOptions"
+          :aria-describedby="ariaDescribedby"
+          name="radio-options"
+        ></b-form-radio-group>
+      </b-form-group>
     </form>
   </b-modal>
 </template>
@@ -67,6 +81,11 @@ export default {
         volenteerIndex: null,
       },
       nameInput: null,
+      isArmed: false,
+      armedRadioOptions: [
+        { text: 'לא חמוש', value: false },
+        { text: 'חמוש', value: true },
+      ],
     };
   },
   computed: {
@@ -106,6 +125,7 @@ export default {
       this.nameInput = null;
       this.modalInfo.shiftNumber = null;
       this.modalInfo.volenteerIndex = null;
+      this.isArmed = false;
     },
     removeVolenteer(shift, volenteerIndex) {
       this.items[shift][volenteerIndex] = null;
