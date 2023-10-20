@@ -10,4 +10,8 @@ const addVolenteer = async (volenteer) => {
   await axios.post(`${baseUrl}/volenteers`, volenteer);
 };
 
-export { getShifts, addVolenteer };
+const getVolenteersByDate = async (date) => {
+  return (await axios.get(`${baseUrl}/volenteers/${date.getTime()}`)).data;
+};
+
+export { getShifts, addVolenteer, getVolenteersByDate };

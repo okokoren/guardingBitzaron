@@ -62,7 +62,11 @@
 </template>
 
 <script>
-import { getShifts, addVolenteer } from '../api/apiConnection.js';
+import {
+  getShifts,
+  addVolenteer,
+  getVolenteersByDate,
+} from '../api/apiConnection.js';
 
 export default {
   id: 'singleDayTable',
@@ -137,6 +141,21 @@ export default {
     removeVolenteer(shift, volenteerIndex) {
       this.items[shift][volenteerIndex] = null;
     },
+    async updateVolenteers() {
+      this.clearVolenteerBoard();
+      const volenteers = await getVolenteersByDate(this.selectedDate);
+
+      for (const volenteer of volenteers) {
+        this.items.find((item) => item.shift.id === volenteer.shift)[
+          volenteer.volenteerNum.toString()
+        ] = { name: volenteer.name, isArmed: volenteer.is_armed };
+      }
+    },
+    clearVolenteerBoard() {
+      for (const shiftIndex in this.items) {
+        this.items[shiftIndex] = { shift: this.items[shiftIndex].shift };
+      }
+    },
   },
   async mounted() {
     const shifts = await getShifts();
@@ -150,6 +169,12 @@ export default {
         },
       });
     }
+    await this.updateVolenteers();
+  },
+  watch: {
+    selectedDate() {
+      this.updateVolenteers();
+    },
   },
 };
 </script>

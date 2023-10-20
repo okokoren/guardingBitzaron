@@ -1,10 +1,11 @@
 import { pool } from '../db.js';
 
 const getVolenteersByDate = async (date) => {
-  // TODO: implement query
-  const results = await pool.query('');
+  const results = await pool.query('SELECT * FROM volenteers WHERE date = $1', [
+    date,
+  ]);
 
-  return results;
+  return results.rows;
 };
 
 const addVolenteer = async (name, isArmed, shift, date) => {
@@ -17,5 +18,6 @@ const addVolenteer = async (name, isArmed, shift, date) => {
 };
 
 export default {
+  getVolenteersByDate,
   addVolenteer,
 };

@@ -1,8 +1,16 @@
 import httpStatus from 'http-status';
 import volenteersService from '../services/volenteers.service.js';
 
-const getVolenteers = (req, res) => {
-  res.status(httpStatus.OK).send('working');
+const getVolenteers = async (req, res, next) => {
+  try {
+    const result = await volenteersService.getVolenteersByDate(
+      new Date(parseInt(req.params.dateEpoch))
+    );
+
+    res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
 const addVolenteer = async (req, res, next) => {
