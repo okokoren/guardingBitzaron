@@ -1,6 +1,6 @@
 import { pool } from '../db';
 
-const getShiftsByDate = async (date) => {
+const getVolenteersByDate = async (date) => {
   // TODO: implement query
   const results = await pool.query('');
 
