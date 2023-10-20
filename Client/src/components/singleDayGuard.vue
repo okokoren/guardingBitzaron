@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { baseUrl } from '../api/apiConnection.js';
+import { getShifts } from '../api/apiConnection.js';
 
 export default {
   id: 'singleDayTable',
@@ -72,9 +72,6 @@ export default {
   data() {
     return {
       volenteerNumber: 2,
-      shiftNumber: 2,
-      shiftDuration: 2,
-      startHour: 2,
       items: [],
       modalInfo: {
         id: 'signUpModal',
@@ -134,14 +131,15 @@ export default {
       this.items[shift][volenteerIndex] = null;
     },
   },
-  mounted() {
-    console.log(baseUrl);
-    let currentHour = this.startHour;
-    for (let shiftIndex = 0; shiftIndex < this.shiftNumber; shiftIndex++) {
+  async mounted() {
+    const shifts = await getShifts();
+    for (const shift of shifts) {
       this.items.push({
-        shift: `${currentHour}:00 - ${currentHour + this.shiftDuration}:00`,
+        shift: `${shift.start_hour}:00 - ${
+          shift.start_hour + shift.duration
+        }:00`,
+        shiftId: shift.shift_id,
       });
-      currentHour += this.shiftDuration;
     }
   },
 };
