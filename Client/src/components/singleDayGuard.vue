@@ -2,7 +2,7 @@
   <b-card bg-variant="secondary" text-variant="white">
     <b-table :items="items" :fields="fields" bordered>
       <template #cell(shift)="row">
-        {{ row.value }}
+        {{ row.value.lable }}
       </template>
       <template #cell()="row">
         <b-button
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { getShifts } from '../api/apiConnection.js';
+import { getShifts, addVolenteer } from '../api/apiConnection.js';
 
 export default {
   id: 'singleDayTable',
@@ -114,12 +114,19 @@ export default {
 
       this.$bvModal.show(this.modalInfo.id);
     },
-    submitVolenteer() {
-      const volenteer = { name: this.nameInput, isArmed: this.isArmed };
-      this.items[this.modalInfo.shiftNumber][this.modalInfo.volenteerIndex] =
-        volenteer;
+    async submitVolenteer() {
+      try {
+        const volenteer = { name: this.nameInput, isArmed: this.isArmed };
+        volenteer.date = this.selectedDate;
+        volenteer.shift = this.items[this.modalInfo.shiftNumber].shift.id;
+        await addVolenteer(volenteer);
 
-      this.resetSignUpValues();
+        this.items[this.modalInfo.shiftNumber][this.modalInfo.volenteerIndex] =
+          volenteer;
+        this.resetSignUpValues();
+      } catch (error) {
+        console.log(error);
+      }
     },
     resetSignUpValues() {
       this.nameInput = null;
@@ -135,10 +142,12 @@ export default {
     const shifts = await getShifts();
     for (const shift of shifts) {
       this.items.push({
-        shift: `${shift.start_hour}:00 - ${
-          shift.start_hour + shift.duration
-        }:00`,
-        shiftId: shift.shift_id,
+        shift: {
+          id: shift.shift_id,
+          lable: `${shift.start_hour}:00 - ${
+            shift.start_hour + shift.duration
+          }:00`,
+        },
       });
     }
   },

@@ -6,4 +6,8 @@ const getShifts = async () => {
   return (await axios.get(`${baseUrl}/shifts`)).data;
 };
 
-export { getShifts };
+const addVolenteer = async (volenteer) => {
+  await axios.post(`${baseUrl}/volenteers`, volenteer);
+};
+
+export { getShifts, addVolenteer };
