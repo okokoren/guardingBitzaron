@@ -25,7 +25,20 @@ const addVolenteer = async (req, res, next) => {
   }
 };
 
+const removeVolenteer = async (req, res, next) => {
+  try {
+    if (await volenteersService.removeVolenteer(req.query)) {
+      res.status(httpStatus.OK).send();
+    } else {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getVolenteers,
   addVolenteer,
+  removeVolenteer,
 };

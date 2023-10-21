@@ -10,8 +10,16 @@ const addVolenteer = async (volenteer) => {
   await axios.post(`${baseUrl}/volenteers`, volenteer);
 };
 
+const removeVolenteer = async (volenteer) => {
+  await axios.delete(
+    `${baseUrl}/volenteers?shift=${volenteer.shift}&name=${
+      volenteer.name
+    }&date=${new Date(volenteer.date).getTime()}`
+  );
+};
+
 const getVolenteersByDate = async (date) => {
   return (await axios.get(`${baseUrl}/volenteers/${date.getTime()}`)).data;
 };
 
-export { getShifts, addVolenteer, getVolenteersByDate };
+export { getShifts, addVolenteer, getVolenteersByDate, removeVolenteer };

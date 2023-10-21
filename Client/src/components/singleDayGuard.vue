@@ -66,6 +66,7 @@ import {
   getShifts,
   addVolenteer,
   getVolenteersByDate,
+  removeVolenteer,
 } from '../api/apiConnection.js';
 
 export default {
@@ -138,8 +139,13 @@ export default {
       this.modalInfo.volenteerIndex = null;
       this.isArmed = false;
     },
-    removeVolenteer(shift, volenteerIndex) {
-      this.items[shift][volenteerIndex] = null;
+    async removeVolenteer(shift, volenteerIndex) {
+      try {
+        await removeVolenteer(this.items[shift][volenteerIndex]);
+        this.items[shift][volenteerIndex] = null;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async updateVolenteers() {
       this.clearVolenteerBoard();
@@ -148,7 +154,7 @@ export default {
       for (const volenteer of volenteers) {
         this.items.find((item) => item.shift.id === volenteer.shift)[
           volenteer.volenteerNum.toString()
-        ] = { name: volenteer.name, isArmed: volenteer.is_armed };
+        ] = volenteer;
       }
     },
     clearVolenteerBoard() {

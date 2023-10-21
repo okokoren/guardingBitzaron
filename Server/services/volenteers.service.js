@@ -13,6 +13,12 @@ const getVolenteersByDate = async (date) => {
   const existingShifts = {};
   const result = await volenteersRepository.getVolenteersByDate(date);
   for (const volenteer of result) {
+    Object.defineProperty(
+      volenteer,
+      'isArmed',
+      Object.getOwnPropertyDescriptor(volenteer, 'is_armed')
+    );
+    delete volenteer['is_armed'];
     if (volenteer.shift in existingShifts) {
       existingShifts[volenteer.shift]++;
     } else {
@@ -25,7 +31,16 @@ const getVolenteersByDate = async (date) => {
   return result;
 };
 
+const removeVolenteer = async (volenteer) => {
+  return await volenteersRepository.removeVolenteer(
+    volenteer.name,
+    volenteer.shift,
+    new Date(parseInt(volenteer.date))
+  );
+};
+
 export default {
   addVolenteer,
   getVolenteersByDate,
+  removeVolenteer,
 };

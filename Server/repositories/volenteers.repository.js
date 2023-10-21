@@ -17,7 +17,17 @@ const addVolenteer = async (name, isArmed, shift, date) => {
   return result.rowCount > 0;
 };
 
+const removeVolenteer = async (name, shift, date) => {
+  const result = await pool.query(
+    'DELETE FROM volenteers WHERE name = $1 AND shift = $2 AND date = $3',
+    [name, shift, date]
+  );
+
+  return result.rowCount > 0;
+};
+
 export default {
   getVolenteersByDate,
   addVolenteer,
+  removeVolenteer,
 };
