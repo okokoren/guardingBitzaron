@@ -6,26 +6,26 @@
       </b-col>
     </b-row>
     <b-row align-h="center" align-v="center">
-      <b-col cols="10">
-        <b-row align-v="center">
+      <b-col xl="10">
+        <b-row align-v="center" align-h="center">
           <b-col cols="auto">
             <b-button @click="getToday">היום</b-button>
           </b-col>
-          <b-col>
-            <b-row align-h="between" id="dateScroller">
-              <b-col cols="3" class="dateContainer">
+          <b-col xl="11" id="dateScroller">
+            <b-row align-h="around">
+              <b-col cols="auto" class="dateContainer d-none d-lg-block">
                 <h3>
                   {{ prevDate.toLocaleDateString('he-IL', dateParseOptions) }}
                 </h3>
               </b-col>
-              <b-col cols="5" class="dateContainer">
-                <b-row class="selectedDateContainer">
-                  <b-col cols="1">
+              <b-col cols="auto" xl="5" class="dateContainer">
+                <b-row class="selectedDateContainer" align-h="between">
+                  <b-col cols="auto">
                     <b-button @click="decreaseDate"
                       ><BIconArrowLeft></BIconArrowLeft
                     ></b-button>
                   </b-col>
-                  <b-col cols="10">
+                  <b-col cols="auto">
                     <h3>
                       {{
                         selectedDate.toLocaleDateString(
@@ -35,14 +35,14 @@
                       }}
                     </h3>
                   </b-col>
-                  <b-col cols="1">
+                  <b-col cols="auto">
                     <b-button @click="increaseDate"
                       ><BIconArrowRight></BIconArrowRight
                     ></b-button>
                   </b-col>
                 </b-row>
               </b-col>
-              <b-col cols="3" class="dateContainer">
+              <b-col cols="auto" class="dateContainer d-none d-lg-block">
                 <h3>
                   {{ nextDate.toLocaleDateString('he-IL', dateParseOptions) }}
                 </h3>
@@ -51,7 +51,7 @@
           </b-col>
         </b-row>
         <b-row align-h="center" class="mt-5">
-          <b-col cols="6">
+          <b-col xl="6" md="8" cols="10">
             <singleDayGuard :selected-date="selectedDate"></singleDayGuard>
           </b-col>
         </b-row>
@@ -118,6 +118,7 @@ export default {
 
 #dateScroller {
   background-color: #555252ee;
+  background-clip: content-box;
   color: white;
   text-align: center;
 }
