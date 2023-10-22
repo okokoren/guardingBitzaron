@@ -13,39 +13,39 @@
           </b-col>
           <b-col xl="11" id="dateScroller">
             <b-row align-h="around">
-              <b-col cols="auto" class="dateContainer d-none d-lg-block">
-                <h3>
+              <b-col lg="3" class="dateContainer d-none d-lg-block">
+                <h4>
                   {{ prevDate.toLocaleDateString('he-IL', dateParseOptions) }}
-                </h3>
+                </h4>
               </b-col>
-              <b-col cols="auto" xl="5" class="dateContainer">
-                <b-row class="selectedDateContainer" align-h="between">
-                  <b-col cols="auto">
+              <b-col cols="11" lg="6" xl="5" class="dateContainer">
+                <b-row class="selectedDateContainer" align-h="around">
+                  <b-col cols="3">
                     <b-button @click="decreaseDate"
                       ><BIconArrowLeft></BIconArrowLeft
                     ></b-button>
                   </b-col>
-                  <b-col cols="auto">
-                    <h3>
+                  <b-col cols="6">
+                    <h4>
                       {{
                         selectedDate.toLocaleDateString(
                           'he-IL',
                           dateParseOptions
                         )
                       }}
-                    </h3>
+                    </h4>
                   </b-col>
-                  <b-col cols="auto">
+                  <b-col cols="3">
                     <b-button @click="increaseDate"
                       ><BIconArrowRight></BIconArrowRight
                     ></b-button>
                   </b-col>
                 </b-row>
               </b-col>
-              <b-col cols="auto" class="dateContainer d-none d-lg-block">
-                <h3>
+              <b-col lg="3" class="dateContainer d-none d-lg-block">
+                <h4>
                   {{ nextDate.toLocaleDateString('he-IL', dateParseOptions) }}
-                </h3>
+                </h4>
               </b-col>
             </b-row>
           </b-col>
