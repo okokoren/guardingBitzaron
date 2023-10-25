@@ -30,4 +30,7 @@ export default {
   -webkit-text-size-adjust: 100%;
   padding: 2rem;
 }
+html {
+  background-color: #242424;
+}
 </style>

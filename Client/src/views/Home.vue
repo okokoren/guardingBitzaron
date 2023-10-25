@@ -61,7 +61,11 @@
         </b-row>
         <b-row align-h="center" class="mt-5">
           <b-col xl="6" md="8" cols="10">
-            <singleDayGuard :selected-date="selectedDate"></singleDayGuard>
+            <multiDayGuard
+              :startDate="selectedDate"
+              :dateParseOptions="dateParseOptions"
+              :numOfDays="selectedNumOfDays"
+            ></multiDayGuard>
           </b-col>
         </b-row>
       </b-col>
@@ -71,13 +75,13 @@
 
 <script>
 import { BIconArrowLeft, BIconArrowRight } from 'bootstrap-vue';
-import singleDayGuard from '../components/singleDayGuard.vue';
+import multiDayGuard from '../components/multiDayGuard.vue';
 
 export default {
   components: {
     BIconArrowLeft,
     BIconArrowRight,
-    singleDayGuard,
+    multiDayGuard,
   },
   data() {
     return {
@@ -99,13 +103,13 @@ export default {
   computed: {
     prevDate() {
       const date = new Date(this.selectedDate);
-      date.setDate(this.selectedDate.getDate() - 1);
+      date.setDate(this.selectedDate.getDate() - this.selectedNumOfDays);
 
       return date;
     },
     nextDate() {
       const date = new Date(this.selectedDate);
-      date.setDate(this.selectedDate.getDate() + 1);
+      date.setDate(this.selectedDate.getDate() + this.selectedNumOfDays);
 
       return date;
     },
@@ -113,11 +117,15 @@ export default {
   methods: {
     increaseDate() {
       this.selectedDate = new Date(this.selectedDate);
-      this.selectedDate.setDate(this.selectedDate.getDate() + 1);
+      this.selectedDate.setDate(
+        this.selectedDate.getDate() + this.selectedNumOfDays
+      );
     },
     decreaseDate() {
       this.selectedDate = new Date(this.selectedDate);
-      this.selectedDate.setDate(this.selectedDate.getDate() - 1);
+      this.selectedDate.setDate(
+        this.selectedDate.getDate() - this.selectedNumOfDays
+      );
     },
     getToday() {
       this.selectedDate = new Date();

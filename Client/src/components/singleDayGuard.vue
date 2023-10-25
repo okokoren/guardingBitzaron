@@ -79,7 +79,7 @@ export default {
       volenteerNumber: 2,
       items: [],
       modalInfo: {
-        id: 'signUpModal',
+        id: `signUpModal${this.selectedDate.getTime()}`,
         title: '',
         shiftNumber: null,
         volenteerIndex: null,
