@@ -8,6 +8,15 @@ const getVolenteersByDate = async (date) => {
   return results.rows;
 };
 
+const getVolenteersByDateRange = async (startDate, endDate) => {
+  const result = await pool.query(
+    'SELECT * FROM volenteers WHERE date >= $1 AND date <= $2',
+    [startDate, endDate]
+  );
+
+  return result.rows;
+};
+
 const addVolenteer = async (name, isArmed, shift, date) => {
   const result = await pool.query(
     'INSERT INTO volenteers (name, is_armed, shift, date) VALUES ($1, $2, $3, $4)',
@@ -30,4 +39,5 @@ export default {
   getVolenteersByDate,
   addVolenteer,
   removeVolenteer,
+  getVolenteersByDateRange,
 };

@@ -13,6 +13,19 @@ const getVolenteers = async (req, res, next) => {
   }
 };
 
+const getVolenteersRange = async (req, res, next) => {
+  try {
+    const result = await volenteersService.getVolenteersByDateRange(
+      new Date(parseInt(req.params.dateEpoch)),
+      parseInt(req.params.days)
+    );
+
+    res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const addVolenteer = async (req, res, next) => {
   try {
     if (await volenteersService.addVolenteer(req.body)) {
@@ -41,4 +54,5 @@ export default {
   getVolenteers,
   addVolenteer,
   removeVolenteer,
+  getVolenteersRange,
 };

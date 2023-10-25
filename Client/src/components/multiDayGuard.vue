@@ -2,6 +2,8 @@
   <single-day-guard
     v-if="numOfDays === 1"
     :selectedDate="startDate"
+    :volenteers="volenteers"
+    :shifts="shifts"
   ></single-day-guard>
   <b-container fluid v-else>
     <b-row v-for="currDay in numOfDays" :key="currDay" class="singleDateTable">
@@ -20,6 +22,8 @@
       <b-row>
         <single-day-guard
           :selectedDate="getCurrentDate(currDay)"
+          :volenteers="volenteers[getCurrentDate(currDay).getTime()]"
+          :shifts="shifts"
         ></single-day-guard>
       </b-row>
     </b-row>
@@ -27,17 +31,52 @@
 </template>
 
 <script>
+import {
+  getVolenteersByDateRange,
+  getVolenteersByDate,
+  getShifts,
+} from '../api/apiConnection.js';
 import singleDayGuard from './singleDayGuard.vue';
+
 export default {
   components: { singleDayGuard },
   props: { startDate: Date, numOfDays: Number, dateParseOptions: Object },
+  data() {
+    return {
+      volenteers: {},
+      shifts: [],
+    };
+  },
   methods: {
     getCurrentDate(daysDifference) {
       const currentDate = new Date(this.startDate);
       currentDate.setDate(currentDate.getDate() + (daysDifference - 1));
+      currentDate.setHours(0, 0, 0, 0);
 
       return currentDate;
     },
+    async updateVolenteers() {
+      if (this.numOfDays === 1) {
+        this.volenteers = await getVolenteersByDate(this.startDate);
+      } else {
+        this.volenteers = await getVolenteersByDateRange(
+          this.startDate,
+          this.numOfDays
+        );
+      }
+    },
+  },
+  watch: {
+    startDate() {
+      this.updateVolenteers();
+    },
+    numOfDays() {
+      this.updateVolenteers();
+    },
+  },
+  async mounted() {
+    this.shifts = await getShifts();
+    this.updateVolenteers();
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <b-container fluid id="mainPageContainer">
-    <b-row>
+    <b-row class="optionsRow">
       <b-col cols="auto">
         <b-form-select
           id="daysNumSelect"
@@ -164,5 +164,8 @@ export default {
 }
 #daysNumSelect {
   direction: rtl;
+}
+.optionsRow {
+  margin-bottom: 0.5rem;
 }
 </style>

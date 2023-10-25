@@ -73,6 +73,8 @@ export default {
   id: 'singleDayTable',
   props: {
     selectedDate: Date,
+    volenteers: Array,
+    shifts: Array,
   },
   data() {
     return {
@@ -130,7 +132,7 @@ export default {
           volenteer;
         this.resetSignUpValues();
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     resetSignUpValues() {
@@ -144,17 +146,23 @@ export default {
         await removeVolenteer(this.items[shift][volenteerIndex]);
         this.items[shift][volenteerIndex] = null;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
-    async updateVolenteers() {
+    updateVolenteers() {
       this.clearVolenteerBoard();
-      const volenteers = await getVolenteersByDate(this.selectedDate);
 
-      for (const volenteer of volenteers) {
-        this.items.find((item) => item.shift.id === volenteer.shift)[
-          volenteer.volenteerNum.toString()
-        ] = volenteer;
+      if (
+        this.volenteers instanceof Array &&
+        this.volenteers.length > 0 &&
+        this.shifts instanceof Array &&
+        this.shifts.length > 0
+      ) {
+        for (const volenteer of this.volenteers) {
+          this.items.find((item) => item.shift.id === volenteer.shift)[
+            volenteer.volenteerNum.toString()
+          ] = volenteer;
+        }
       }
     },
     clearVolenteerBoard() {
@@ -163,9 +171,8 @@ export default {
       }
     },
   },
-  async mounted() {
-    const shifts = await getShifts();
-    for (const shift of shifts) {
+  mounted() {
+    for (const shift of this.shifts) {
       this.items.push({
         shift: {
           id: shift.shift_id,
@@ -175,10 +182,25 @@ export default {
         },
       });
     }
-    await this.updateVolenteers();
+
+    this.updateVolenteers();
   },
   watch: {
-    selectedDate() {
+    volenteers() {
+      this.updateVolenteers();
+    },
+    shifts() {
+      for (const shift of this.shifts) {
+        this.items.push({
+          shift: {
+            id: shift.shift_id,
+            lable: `${shift.start_hour}:00 - ${
+              shift.start_hour + shift.duration
+            }:00`,
+          },
+        });
+      }
+
       this.updateVolenteers();
     },
   },

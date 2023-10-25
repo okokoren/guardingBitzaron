@@ -22,4 +22,16 @@ const getVolenteersByDate = async (date) => {
   return (await axios.get(`${baseUrl}/volenteers/${date.getTime()}`)).data;
 };
 
-export { getShifts, addVolenteer, getVolenteersByDate, removeVolenteer };
+const getVolenteersByDateRange = async (date, numOfDays) => {
+  return (
+    await axios.get(`${baseUrl}/volenteers/${date.getTime()}/${numOfDays}`)
+  ).data;
+};
+
+export {
+  getShifts,
+  addVolenteer,
+  getVolenteersByDate,
+  removeVolenteer,
+  getVolenteersByDateRange,
+};

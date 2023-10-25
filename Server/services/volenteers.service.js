@@ -10,8 +10,51 @@ const addVolenteer = async (volenteer) => {
 };
 
 const getVolenteersByDate = async (date) => {
-  const existingShifts = {};
   const result = await volenteersRepository.getVolenteersByDate(date);
+
+  return parseVolenteers(result);
+};
+
+const getVolenteersByDateRange = async (date, numOfDays) => {
+  const MAX_DAYS = 50;
+  const endDate = new Date(date);
+
+  endDate.setDate(endDate.getDate() + Math.min(numOfDays, MAX_DAYS));
+  let dbResult = await volenteersRepository.getVolenteersByDateRange(
+    date,
+    endDate
+  );
+
+  dbResult = dbResult.map((volenteer) => [volenteer.date.getTime(), volenteer]);
+
+  const dateSeperated = {};
+
+  dbResult.forEach((volenteer) => {
+    if (!dateSeperated[volenteer[0]]) {
+      dateSeperated[volenteer[0]] = [volenteer[1]];
+    } else {
+      dateSeperated[volenteer[0]].push(volenteer[1]);
+    }
+  });
+
+  Object.keys(dateSeperated).forEach((date) => {
+    dateSeperated[date] = parseVolenteers(dateSeperated[date]);
+  });
+
+  return dateSeperated;
+};
+
+const removeVolenteer = async (volenteer) => {
+  return await volenteersRepository.removeVolenteer(
+    volenteer.name,
+    volenteer.shift,
+    new Date(parseInt(volenteer.date))
+  );
+};
+
+const parseVolenteers = (data) => {
+  const existingShifts = {};
+  const result = data;
   for (const volenteer of result) {
     Object.defineProperty(
       volenteer,
@@ -31,16 +74,9 @@ const getVolenteersByDate = async (date) => {
   return result;
 };
 
-const removeVolenteer = async (volenteer) => {
-  return await volenteersRepository.removeVolenteer(
-    volenteer.name,
-    volenteer.shift,
-    new Date(parseInt(volenteer.date))
-  );
-};
-
 export default {
   addVolenteer,
   getVolenteersByDate,
   removeVolenteer,
+  getVolenteersByDateRange,
 };
