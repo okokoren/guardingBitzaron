@@ -1,5 +1,14 @@
 <template>
   <b-container fluid id="mainPageContainer">
+    <b-row>
+      <b-col cols="auto">
+        <b-form-select
+          id="daysNumSelect"
+          v-model="selectedNumOfDays"
+          :options="numOfDaysOptions"
+        ></b-form-select>
+      </b-col>
+    </b-row>
     <b-row align-h="center">
       <b-col cols="auto" class="pageTitle">
         <h1>שמירות ביצרון</h1>
@@ -79,6 +88,12 @@ export default {
         month: 'numeric',
         day: 'numeric',
       },
+      numOfDaysOptions: [
+        { value: 1, text: 'רק היום הנבחר' },
+        { value: 7, text: '7 ימים קדימה' },
+        { value: 30, text: '30 ימים קדימה' },
+      ],
+      selectedNumOfDays: 1,
     };
   },
   computed: {
@@ -135,5 +150,11 @@ export default {
 
 .pageTitle {
   margin-bottom: 1rem;
+}
+#mainPageContainer {
+  height: inherit;
+}
+#daysNumSelect {
+  direction: rtl;
 }
 </style>

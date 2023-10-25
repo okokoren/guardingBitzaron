@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <home class="topElement"></home>
+    <home></home>
   </div>
 </template>
 
@@ -28,9 +28,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
-
-.topElement {
-  padding-top: 2rem;
+  padding: 2rem;
 }
 </style>
