@@ -59,8 +59,8 @@
             </b-row>
           </b-col>
         </b-row>
-        <b-row align-h="center" class="mt-5">
-          <b-col xl="6" md="8" cols="10">
+        <b-row align-v="center" align-h="center" class="mt-5">
+          <b-col xl="6" md="8" cols="12">
             <multiDayGuard
               :startDate="selectedDate"
               :dateParseOptions="dateParseOptions"

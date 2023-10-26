@@ -14,7 +14,7 @@
           הירשם
         </b-button>
         <div v-else>
-          <b-row align-h="center" align-v="center">
+          <b-row align-h="center" align-v="center" class="mx-0">
             <b-col cols="9">
               <span>
                 {{ row.value.name }}

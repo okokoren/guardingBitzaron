@@ -5,7 +5,7 @@
     :volenteers="volenteers"
     :shifts="shifts"
   ></single-day-guard>
-  <b-container fluid v-else>
+  <div v-else>
     <b-row v-for="currDay in numOfDays" :key="currDay" class="singleDateTable">
       <b-row class="dateCard">
         <b-card bg-variant="secondary" text-variant="white">
@@ -20,14 +20,16 @@
         </b-card>
       </b-row>
       <b-row>
-        <single-day-guard
-          :selectedDate="getCurrentDate(currDay)"
-          :volenteers="volenteers[getCurrentDate(currDay).getTime()]"
-          :shifts="shifts"
-        ></single-day-guard>
+        <b-col>
+          <single-day-guard
+            :selectedDate="getCurrentDate(currDay)"
+            :volenteers="volenteers[getCurrentDate(currDay).getTime()]"
+            :shifts="shifts"
+          ></single-day-guard>
+        </b-col>
       </b-row>
     </b-row>
-  </b-container>
+  </div>
 </template>
 
 <script>
