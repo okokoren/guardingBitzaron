@@ -1,16 +1,17 @@
-import { pool } from '../db.js';
+import { pool, schema } from '../db.js';
 
 const getVolenteersByDate = async (date) => {
-  const results = await pool.query('SELECT * FROM volenteers WHERE date = $1', [
-    date,
-  ]);
+  const results = await pool.query(
+    `SELECT * FROM ${schema}.volenteers WHERE date = $1`,
+    [date]
+  );
 
   return results.rows;
 };
 
 const getVolenteersByDateRange = async (startDate, endDate) => {
   const result = await pool.query(
-    'SELECT * FROM volenteers WHERE date >= $1 AND date <= $2',
+    `SELECT * FROM ${schema}.volenteers WHERE date >= $1 AND date <= $2`,
     [startDate, endDate]
   );
 
@@ -19,7 +20,7 @@ const getVolenteersByDateRange = async (startDate, endDate) => {
 
 const addVolenteer = async (name, isArmed, shift, date) => {
   const result = await pool.query(
-    'INSERT INTO volenteers (name, is_armed, shift, date) VALUES ($1, $2, $3, $4)',
+    `INSERT INTO ${schema}.volenteers (name, is_armed, shift, date) VALUES ($1, $2, $3, $4)`,
     [name, isArmed, shift, date]
   );
 
@@ -28,7 +29,7 @@ const addVolenteer = async (name, isArmed, shift, date) => {
 
 const removeVolenteer = async (name, shift, date) => {
   const result = await pool.query(
-    'DELETE FROM volenteers WHERE name = $1 AND shift = $2 AND date = $3',
+    `DELETE FROM ${schema}.volenteers WHERE name = $1 AND shift = $2 AND date = $3`,
     [name, shift, date]
   );
 

@@ -12,8 +12,6 @@ const pool = new pg.Pool({
   ssl: true,
 });
 
-if (process.env.SCHEMA !== 'public') {
-  pool.query(`SET search_path TO '${process.env.SCHEMA}';`);
-}
+const schema = process.env.SCHEMA;
 
-export { pool };
+export { pool, schema };
