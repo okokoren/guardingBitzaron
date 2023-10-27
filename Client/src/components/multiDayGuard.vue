@@ -55,6 +55,8 @@ export default {
       currentDate.setDate(currentDate.getDate() + (daysDifference - 1));
       currentDate.setHours(0, 0, 0, 0);
 
+      console.log(currentDate);
+      console.log(currentDate.getTime());
       return currentDate;
     },
     async updateVolenteers() {

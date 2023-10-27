@@ -20,6 +20,13 @@ app.options('*', cors());
 app.use('/volenteers', volenteersRouter);
 app.use('/shifts', shiftsRouter);
 
+io.on('connection', (socket) => {
+  console.log('user connected');
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
+});
+
 server.listen(port, () => {
   console.log(`Listening to port ${port}`);
 });
