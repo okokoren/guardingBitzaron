@@ -24,7 +24,6 @@
           <single-day-guard
             :selectedDate="getCurrentDate(currDay)"
             :volenteers="volenteers[getCurrentDate(currDay).getTime()]"
-            @vnodeUpdated="debug(currDay)"
             :shifts="shifts"
           ></single-day-guard>
         </b-col>
@@ -65,6 +64,13 @@ export default {
         this.volenteers = await getVolenteersByDateRange(
           this.startDate,
           this.numOfDays
+        );
+        alert(
+          JSON.stringify(
+            Object.keys(this.volenteers).map((key) =>
+              new Date(parseInt(key)).toLocaleDateString('he')
+            )
+          )
         );
       }
     },
