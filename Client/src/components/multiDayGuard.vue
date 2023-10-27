@@ -24,6 +24,7 @@
           <single-day-guard
             :selectedDate="getCurrentDate(currDay)"
             :volenteers="volenteers[getCurrentDate(currDay).getTime()]"
+            @vnodeUpdated="debug(currDay)"
             :shifts="shifts"
           ></single-day-guard>
         </b-col>
@@ -55,8 +56,6 @@ export default {
       currentDate.setDate(currentDate.getDate() + (daysDifference - 1));
       currentDate.setHours(0, 0, 0, 0);
 
-      console.log(currentDate);
-      console.log(currentDate.getTime());
       return currentDate;
     },
     async updateVolenteers() {
@@ -68,6 +67,17 @@ export default {
           this.numOfDays
         );
       }
+    },
+    debug(currDay) {
+      const currentDate = this.getCurrentDate(currDay);
+
+      alert(
+        `${currentDate.toLocaleDateString(
+          'he',
+          this.dateParseOptions
+        )}: ${currentDate.getTime()}
+        ${JSON.stringify(this.volenteers)}`
+      );
     },
   },
   watch: {
