@@ -13,5 +13,5 @@ const pool = new pg.Pool({
 });
 
 pool.query(`SET search_path TO '${process.env.SCHEMA}';`);
-console.log(process.env.SCHEMA);
+
 export { pool };

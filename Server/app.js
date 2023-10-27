@@ -17,6 +17,9 @@ app.use(express.json());
 app.use(cors());
 app.options('*', cors());
 
+app.get('/', (req, res) => {
+  res.status(200).send(process.env.SCHEMA);
+});
 app.use('/volenteers', volenteersRouter);
 app.use('/shifts', shiftsRouter);
 
