@@ -28,7 +28,7 @@
                 Object.keys(this.volenteers).find((key) => {
                   return (
                     new Date(key).toLocaleDateString('he') ===
-                    getCurrentDate(currDay - 1).toLocaleDateString('he')
+                    getCurrentDate(currDay).toLocaleDateString('he')
                   );
                 })
               ]
