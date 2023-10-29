@@ -25,14 +25,16 @@
             :selectedDate="getCurrentDate(currDay)"
             :volenteers="
               volenteers[
-                Object.keys(this.volenteers).find(
-                  (key) =>
-                    new Date(parseInt(key)).toLocaleDateString('he') ===
-                    getCurrentDate(currDay).toLocaleDateString('he')
-                )
+                Object.keys(this.volenteers).find((key) => {
+                  return (
+                    new Date(key).toLocaleDateString('he') ===
+                    getCurrentDate(currDay - 1).toLocaleDateString('he')
+                  );
+                })
               ]
             "
             :shifts="shifts"
+            @vnode-updated="debug()"
           ></single-day-guard>
         </b-col>
       </b-row>
@@ -74,6 +76,12 @@ export default {
           this.numOfDays
         );
       }
+    },
+    debug() {
+      Object.keys(this.volenteers).forEach((key) => {
+        console.log(key);
+        console.log(new Date(key));
+      });
     },
   },
   watch: {

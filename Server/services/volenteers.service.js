@@ -1,6 +1,9 @@
 import volenteersRepository from '../repositories/volenteers.repository.js';
 
 const addVolenteer = async (volenteer) => {
+  volenteer.date = new Date(volenteer.date);
+  volenteer.date.setHours(0, 0, 0, 0);
+
   return await volenteersRepository.addVolenteer(
     volenteer.name,
     volenteer.isArmed,
@@ -27,7 +30,10 @@ const getVolenteersByDateRange = async (date, numOfDays) => {
     endDate
   );
 
-  dbResult = dbResult.map((volenteer) => [volenteer.date.getTime(), volenteer]);
+  dbResult = dbResult.map((volenteer) => [
+    volenteer.date.toISOString().split('T')[0],
+    volenteer,
+  ]);
 
   const dateSeperated = {};
 
