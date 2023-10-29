@@ -23,7 +23,15 @@
         <b-col>
           <single-day-guard
             :selectedDate="getCurrentDate(currDay)"
-            :volenteers="volenteers[getCurrentDate(currDay).getTime()]"
+            :volenteers="
+              volenteers[
+                Object.keys(this.volenteers).find(
+                  (key) =>
+                    new Date(parseInt(key)).toLocaleDateString('he') ===
+                    getCurrentDate(currDay).toLocaleDateString('he')
+                )
+              ]
+            "
             :shifts="shifts"
           ></single-day-guard>
         </b-col>
@@ -65,25 +73,7 @@ export default {
           this.startDate,
           this.numOfDays
         );
-        alert(
-          JSON.stringify(
-            Object.keys(this.volenteers).map((key) =>
-              new Date(parseInt(key)).toLocaleDateString('he')
-            )
-          )
-        );
       }
-    },
-    debug(currDay) {
-      const currentDate = this.getCurrentDate(currDay);
-
-      alert(
-        `${currentDate.toLocaleDateString(
-          'he',
-          this.dateParseOptions
-        )}: ${currentDate.getTime()}
-        ${JSON.stringify(this.volenteers)}`
-      );
     },
   },
   watch: {

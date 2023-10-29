@@ -1,9 +1,12 @@
 import { pool, schema } from '../db.js';
 
 const getVolenteersByDate = async (date) => {
+  const nextDay = new Date(date);
+  nextDay.setDate(nextDay.getDate() + 1);
+
   const results = await pool.query(
-    `SELECT * FROM ${schema}.volenteers WHERE date = $1`,
-    [date]
+    `SELECT * FROM ${schema}.volenteers WHERE date >= $1 AND date < $2`,
+    [date, nextDay]
   );
 
   return results.rows;

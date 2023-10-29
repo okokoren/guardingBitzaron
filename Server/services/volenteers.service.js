@@ -10,12 +10,14 @@ const addVolenteer = async (volenteer) => {
 };
 
 const getVolenteersByDate = async (date) => {
+  date.setHours(0, 0, 0, 0);
   const result = await volenteersRepository.getVolenteersByDate(date);
 
   return parseVolenteers(result);
 };
 
 const getVolenteersByDateRange = async (date, numOfDays) => {
+  date.setHours(0, 0, 0, 0);
   const MAX_DAYS = 50;
   const endDate = new Date(date);
 
